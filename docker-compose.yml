@@ -1,0 +1,38 @@
+version: '3.6'
+
+services:
+  item-db:
+    container_name: item-db
+    image: mongo:3.4
+    ports:
+      - '27017:27017'
+    networks:
+      - item-app-net
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=admin123
+    volumes:
+      - 'app-db:/data/db'
+    restart: on-failure
+
+  item-app:
+    container_name: item-app
+    image: phytagoras25/item-app:v1
+    ports:
+      - '80:8080'
+    networks:
+      - item-app-net
+    environment:
+      - NODE_ENV=production
+      - DB_HOST=item-db
+    depends_on:
+      - item-db
+    restart: on-failure
+
+volumes:
+  app-db:
+    name: app-db
+networks:
+  item-app-net:
+    driver: bridge
+
