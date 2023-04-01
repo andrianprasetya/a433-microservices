@@ -1,14 +1,13 @@
-FROM node:12-alpine
+FROM node:14
 
 WORKDIR /app
 
 COPY . .
 
-RUN npm install --production --unsafe-perm && npm run build
-
-
 ENV NODE_ENV=production DB_HOST=item-db
 
-CMD ["npm", "start"]
+RUN npm install --production --unsafe-perm && npm run build
 
 EXPOSE 8080
+
+CMD ["npm", "start"]
