@@ -1,14 +1,45 @@
 version: 2.1
 jobs:
-  build:
+  lint-dockerfile:
     docker:
-      - image: alpine:3.15
-        auth:
-          username: mydockerhub-user
-          password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
+      - image: circleci/python:3.8
+
     steps:
+      - checkout
+
+      # Install Hadolint
       - run:
-          name: The First Step
+          name: Install Hadolint
+          command : |
+            sudo wget -O /bin/hadolint https://github.com/hadolint/hadolint/releases/download/v2.9.0/hadolint-Linux-x86_64
+            sudo chmod +x /bin/hadolint
+
+      # Lint Dockerfile
+      - run:
+          name: Lint Dockerfile
           command: |
-            echo 'Hello World!'
-            echo 'This is the delivery pipeline'
+            hadolint Dockerfile
+            
+  test-golang-app:
+    docker:
+      - image: golang:1.15
+
+    steps:
+      - checkout
+
+      # Install dependencies
+      - run:
+          name: Install dependencies
+          command: go mod download
+
+      # Run tests
+      - run:
+          name: Run tests
+          command: go test -v -short --count=1 $(go list ./...)
+
+workflows:
+  version: 2
+  lint-and-test:
+    jobs:
+      - lint-dockerfile
+      - test-golang-app
