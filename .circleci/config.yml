@@ -28,6 +28,14 @@ jobs:
     steps:
       - checkout
 
+      # Install Docker
+      - run:
+          name: Install Docker
+          command: |
+            sudo apt-get update
+            sudo apt-get install -y docker.io
+            sudo ln -sf /usr/bin/docker.io /usr/local/bin/docker
+            sudo systemctl start docker
       - run:
           name: Run Bash Script
           command: bash ./build_push_image_karsajobs_ui.sh
