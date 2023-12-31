@@ -34,12 +34,14 @@ jobs:
           command: |
             set -e
             apk add --no-cache docker
+            set -e
+            apk add --no-cache bash
 
       - run:
           name: Run Bash Script
           command: |
             set -e
-            /bin/bash ./build_push_image_karsajobs_ui.sh
+            bash ./build_push_image_karsajobs_ui.sh
 
 workflows:
   version: 2
