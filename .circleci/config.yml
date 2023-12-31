@@ -1,0 +1,39 @@
+version: 2.1
+jobs:
+  lint-dockerfile:
+    docker:
+      - image: circleci/python:3.8
+
+    steps:
+      - checkout
+
+      # Install Hadolint
+      - run:
+          name: Install Hadolint
+          command : |
+            sudo wget -O /bin/hadolint https://github.com/hadolint/hadolint/releases/download/v2.9.0/hadolint-Linux-x86_64
+            sudo chmod +x /bin/hadolint
+
+      # Lint Dockerfile
+      - run:
+          name: Lint Dockerfile
+          command: |
+            hadolint Dockerfile
+
+  build-and-push:
+    docker:
+      - image: docker:lastest
+
+      steps:
+        - checkout
+
+        - run:
+            name: Run Bash Script
+            command: bash build_push_image_karsajobs.sh
+
+workflows:
+  version: 2
+  lint-and-test:
+    jobs:
+      - lint-dockerfile
+      - build-and-push
