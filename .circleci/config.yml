@@ -28,13 +28,7 @@ jobs:
     steps:
       - checkout
 
-      # Mount the Docker socket
-      - run:
-          name: Mount Docker socket
-          command: |
-            set -e
-            mkdir -p /var/run/docker.sock
-            ln -s /var/run/docker.sock /var/run/docker.sock
+      - setup_remote_docker
             
       - run:
           name: Run Bash Script
