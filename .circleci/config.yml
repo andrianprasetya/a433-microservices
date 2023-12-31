@@ -22,7 +22,7 @@ jobs:
 
   build-and-push:
     docker:
-      - image: cypress/base:14.17.0
+      - image: docker:20.10.9
     working_directory: ~/karsajobs
 
     steps:
@@ -32,11 +32,13 @@ jobs:
       - run:
           name: Install Docker
           command: |
-            apk update
-            apk add docker
+            set -e
+            apk add --no-cache docker
       - run:
           name: Run Bash Script
-          command: bash ./build_push_image_karsajobs_ui.sh
+          command: |
+          set -e
+          ./build_push_image_karsajobs_ui.sh
 
 workflows:
   version: 2
