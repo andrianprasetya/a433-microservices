@@ -36,7 +36,12 @@ jobs:
             apk add --no-cache docker
             set -e
             apk add --no-cache bash
-
+      - run:
+          name: Start Docker Daemon
+          command: |
+            set -e
+            sudo service docker start
+            
       - run:
           name: Run Bash Script
           command: |
