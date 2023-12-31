@@ -22,7 +22,7 @@ jobs:
 
   build-and-push:
     docker:
-      - image: docker:lastest
+      - image: circleci/python:3.8
 
     steps:
       - checkout
