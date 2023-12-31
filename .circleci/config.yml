@@ -40,7 +40,9 @@ jobs:
           name: Start Docker Daemon
           command: |
             set -e
-            sudo service docker start
+            dockerd --experimental &  
+            sleep 5  
+            docker info
             
       - run:
           name: Run Bash Script
