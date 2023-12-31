@@ -24,12 +24,12 @@ jobs:
     docker:
       - image: docker:lastest
 
-      steps:
-        - checkout
+    steps:
+      - checkout
 
-        - run:
-            name: Run Bash Script
-            command: bash build_push_image_karsajobs.sh
+      - run:
+          name: Run Bash Script
+          command: bash build_push_image_karsajobs-ui.sh
 
 workflows:
   version: 2
