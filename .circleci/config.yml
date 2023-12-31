@@ -22,7 +22,8 @@ jobs:
 
   build-and-push:
     docker:
-      - image: circleci/python:3.8
+      - image: cypress/base:14.17.0
+    working_directory: ~/karsajobs
 
     steps:
       - checkout
